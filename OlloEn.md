@@ -1,6 +1,3 @@
- # Ollo
-
-
 &#x20;                                     
 
 ![](https://i.hizliresim.com/98sn6te.png )
