@@ -1,7 +1,7 @@
 # Ollo
 
 
-&#x20;                                     [<mark style="color:purple;">**100$ Credit Free VPS for 2 Months(DigitalOcean)**</mark>](https://www.digitalocean.com/?refcode=410c988c8b3e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+&#x20;                                     
 
 ![](https://i.hizliresim.com/98sn6te.png)
 
