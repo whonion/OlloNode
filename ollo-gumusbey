@@ -162,7 +162,7 @@ sudo systemctl enable $OLLO
 sudo systemctl restart $OLLO
 
 echo '=============== KURULUM TAMAM! by gumusbey==================='
-echo -e 'LOGLARI KONTROL ET: \e[1m\e[32mjournalctl -fu ollod -o cat\e[0m'
-echo -e "SENKRONIZASYONU KONTROL ET: \e[1m\e[32mcurl -s localhost:${OLLO_PORT}657/status | jq .result.sync_info\e[0m"
+echo -e 'CHECK LOGS: \e[1m\e[32mjournalctl -fu ollod -o cat\e[0m'
+echo -e "CHECK SYNCHRONIZATION: \e[1m\e[32mcurl -s localhost:${OLLO_PORT}657/status | jq .result.sync_info\e[0m"
 
 source $HOME/.bash_profile
