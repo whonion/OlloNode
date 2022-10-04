@@ -98,7 +98,8 @@ $OLLO config keyring-backend file
 $OLLO init $OLLO_NODENAME --chain-id $OLLO_ID
 
 # ADDRBOOK and GENESIS SETTING
-wget $OLLO_GENESIS -O $HOME/$OLLO_FOLDER/config/genesis.json
+# wget $OLLO_GENESIS -O $HOME/$OLLO_FOLDER/config/genesis.json
+curl https://raw.githubusercontent.com/OllO-Station/ollo/master/networks/ollo-testnet-0/genesis.json | jq .result.genesis > $HOME/.ollo/config/genesis.json
 wget $OLLO_ADDRBOOK -O $HOME/$OLLO_FOLDER/config/addrbook.json
 
 # SETTING PEERS and SEEDS
