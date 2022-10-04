@@ -14,7 +14,7 @@ sleep 2
 OLLO_WALLET=wallet
 OLLO=ollod
 OLLO_ID=ollo-testnet-0
-OLLO_PORT=4
+OLLO_PORT=15
 OLLO_FOLDER=.ollo
 OLLO_FOLDER2=ollo
 OLLO_VER=
