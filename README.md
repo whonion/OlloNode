@@ -13,5 +13,18 @@
 <p><strong>#CREATE_WALLETS</strong></p>
 <p><code>ollod keys add $OLLO_WALLET --recover &amp;&amp; \ OLLO_WALLET_ADDRESS=$(ollod keys show $OLLO_WALLET -a) &amp;&amp; \ OLLO_VALOPER_ADDRESS=$(ollod keys show $OLLO_WALLET --bech val -a) &amp;&amp; \ echo 'export OLLO_WALLET_ADDRESS='${OLLO_WALLET_ADDRESS} &gt;&gt; $HOME/.bash_profile &amp;&amp; \ echo 'export OLLO_VALOPER_ADDRESS='${OLLO_VALOPER_ADDRESS} &gt;&gt; $HOME/.bash_profile &amp;&amp; \ source $HOME/.bash_profile</code></p>
 <p><strong>#CREATE_VALIDATOR AFTER SYNC</strong></p>
+<code>
+ollod tx staking create-validator \
+  --amount 1999000utollo \
+  --from $OLLO_WALLET \
+  --commission-max-change-rate "0.01" \
+  --commission-max-rate "0.2" \
+  --commission-rate "0.07" \
+  --min-self-delegation "1" \
+  --pubkey  $(ollod tendermint show-validator) \
+  --moniker $OLLO_NODENAME \
+  --chain-id $OLLO_ID \
+  --fees 250utollo
+</code>
 <p><strong># Remove Ollo's node:</strong></p>
 <p><code>sudo systemctl stop ollod &amp;&amp; \</code><br /><code>sudo systemctl disable ollod &amp;&amp; \</code><br /><code>sudo rm /etc/systemd/system/ollo* -rf &amp;&amp; \</code><br /><code>sudo rm $(which ollod) -rf &amp;&amp; \</code><br /><code>sudo rm $HOME/.ollo* -rf &amp;&amp; \</code><br /><code>sudo rm $HOME/ollo -rf &amp;&amp; \</code><br /><code>sed -i '/OLLO_/d' ~/.bash_profile</code></p>
