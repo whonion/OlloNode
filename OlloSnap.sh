@@ -23,7 +23,7 @@ if [ ! $NODENAME ]; then
 	read -p "Enter node name: " NODENAME
 	echo 'export NODENAME='$NODENAME >> $HOME/.bash_profile
 fi
-OLLO_PORT=32
+OLLO_PORT=15
 if [ ! $WALLET ]; then
 	echo "export WALLET=wallet" >> $HOME/.bash_profile
 fi
