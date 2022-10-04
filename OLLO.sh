@@ -46,7 +46,7 @@ source $HOME/.bash_profile
 sleep 1
 
 if [ ! $OLLO_NODENAME ]; then
-	read -p "NODE ISMI YAZINIZ: " OLLO_NODENAME
+	read -p "TYPE NODE NAME: " OLLO_NODENAME
 	echo 'export OLLO_NODENAME='$OLLO_NODENAME >> $HOME/.bash_profile
 fi
 
