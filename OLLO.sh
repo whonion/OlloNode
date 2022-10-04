@@ -59,16 +59,16 @@ echo '================================================='
 sleep 2
 
 
-# GUNCELLEMELER by gumusbey
+# INSTALLING UPDATES
 echo -e "\e[1m\e[32m1. INSTALLING UPDATES... \e[0m" && sleep 1
 sudo apt update && sudo apt upgrade -y
 
 
-# GEREKLI PAKETLER by gumusbey
+# LOADING REQUIREMENTS
 echo -e "\e[1m\e[32m2. LOADING REQUIREMENTS... \e[0m" && sleep 1
 sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
 
-# GO KURULUMU by gumusbey
+# INSTALLING GO
 echo -e "\e[1m\e[32m1. INSTALLING GO... \e[0m" && sleep 1
 ver="1.18.2"
 cd $HOME
@@ -82,7 +82,7 @@ go version
 
 sleep 1
 
-# KUTUPHANE KURULUMU by gumusbey
+# REPO DOWNLOADING
 echo -e "\e[1m\e[32m1. REPO DOWNLOADING... \e[0m" && sleep 1
 cd $HOME
 git clone $OLLO_REPO
@@ -91,7 +91,7 @@ make install
 
 sleep 1
 
-# KONFIGURASYON by gumusbey
+# CONFIGURATION
 echo -e "\e[1m\e[32m1. SETTING CONFIGURATIONS... \e[0m" && sleep 1
 $OLLO config chain-id $OLLO_ID
 $OLLO config keyring-backend file
@@ -162,7 +162,7 @@ sudo systemctl enable $OLLO
 sudo systemctl restart $OLLO
 
 echo '=============== KURULUM TAMAM! by gumusbey==================='
-echo -e 'LOGLARI KONTROL ET: \e[1m\e[32mjournalctl -fu ollod -o cat\e[0m'
-echo -e "SENKRONIZASYONU KONTROL ET: \e[1m\e[32mcurl -s localhost:${OLLO_PORT}657/status | jq .result.sync_info\e[0m"
+echo -e 'CHECK LOGS: \e[1m\e[32mjournalctl -fu ollod -o cat\e[0m'
+echo -e "SYNC STATUS: \e[1m\e[32mcurl -s localhost:${OLLO_PORT}657/status | jq .result.sync_info\e[0m"
 
 source $HOME/.bash_profile
