@@ -50,26 +50,26 @@ if [ ! $OLLO_NODENAME ]; then
 	echo 'export OLLO_NODENAME='$OLLO_NODENAME >> $HOME/.bash_profile
 fi
 
-echo -e "NODE ISMINIZ: \e[1m\e[32m$OLLO_NODENAME\e[0m"
-echo -e "CUZDAN ISMINIZ: \e[1m\e[32m$OLLO_WALLET\e[0m"
-echo -e "CHAIN ISMI: \e[1m\e[32m$OLLO_ID\e[0m"
-echo -e "PORT NUMARANIZ: \e[1m\e[32m$OLLO_PORT\e[0m"
+echo -e "NODE ID: \e[1m\e[32m$OLLO_NODENAME\e[0m"
+echo -e "WALLET NAME: \e[1m\e[32m$OLLO_WALLET\e[0m"
+echo -e "CHAIN ID: \e[1m\e[32m$OLLO_ID\e[0m"
+echo -e "CHANGE PORT NUMBER: \e[1m\e[32m$OLLO_PORT\e[0m"
 echo '================================================='
 
 sleep 2
 
 
 # GUNCELLEMELER by gumusbey
-echo -e "\e[1m\e[32m1. GUNCELLEMELER YUKLENIYOR... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m1. INSTALLING UPDATES... \e[0m" && sleep 1
 sudo apt update && sudo apt upgrade -y
 
 
 # GEREKLI PAKETLER by gumusbey
-echo -e "\e[1m\e[32m2. GEREKLILIKLER YUKLENIYOR... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m2. LOADING REQUIREMENTS... \e[0m" && sleep 1
 sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
 
 # GO KURULUMU by gumusbey
-echo -e "\e[1m\e[32m1. GO KURULUYOR... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m1. INSTALLING GO... \e[0m" && sleep 1
 ver="1.18.2"
 cd $HOME
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
@@ -83,7 +83,7 @@ go version
 sleep 1
 
 # KUTUPHANE KURULUMU by gumusbey
-echo -e "\e[1m\e[32m1. REPO YUKLENIYOR... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m1. REPO DOWNLOADING... \e[0m" && sleep 1
 cd $HOME
 git clone $OLLO_REPO
 cd $OLLO_FOLDER2
@@ -92,16 +92,16 @@ make install
 sleep 1
 
 # KONFIGURASYON by gumusbey
-echo -e "\e[1m\e[32m1. KONFIGURASYONLAR AYARLANIYOR... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m1. SETTING CONFIGURATIONS... \e[0m" && sleep 1
 $OLLO config chain-id $OLLO_ID
 $OLLO config keyring-backend file
 $OLLO init $OLLO_NODENAME --chain-id $OLLO_ID
 
-# ADDRBOOK ve GENESIS by gumusbey
+# ADDRBOOK and GENESIS SETTING
 wget $OLLO_GENESIS -O $HOME/$OLLO_FOLDER/config/genesis.json
 wget $OLLO_ADDRBOOK -O $HOME/$OLLO_FOLDER/config/addrbook.json
 
-# EŞLER VE TOHUMLAR by gumusbey
+# SETTING PEERS and SEEDS
 SEEDS="$OLLO_SEEDS"
 PEERS="$OLLO_PEERS"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/$OLLO_FOLDER/config/config.toml
@@ -120,25 +120,25 @@ sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/$OLLO_FOLDER/config/app.toml
 
 
-# ÖZELLEŞTİRİLMİŞ PORTLAR by gumusbey
+# PORTS CHANGE
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${OLLO_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${OLLO_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${OLLO_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${OLLO_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${OLLO_PORT}660\"%" $HOME/$OLLO_FOLDER/config/config.toml
 sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${OLLO_PORT}317\"%; s%^address = \":8080\"%address = \":${OLLO_PORT}080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${OLLO_PORT}090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${OLLO_PORT}091\"%" $HOME/$OLLO_FOLDER/config/app.toml
 sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:${OLLO_PORT}657\"%" $HOME/$OLLO_FOLDER/config/client.toml
 
-# PROMETHEUS AKTIVASYON by gumusbey
+# PROMETHEUS ACTIVATION
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/$OLLO_FOLDER/config/config.toml
 
-# MINIMUM GAS AYARI by gumusbey
+# MINIMUM GAS PRICE
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.00125$OLLO_DENOM\"/" $HOME/$OLLO_FOLDER/config/app.toml
 
-# INDEXER AYARI by gumusbey
+# INDEXER DISABLE
 indexer="null" && \
 sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/$OLLO_FOLDER/config/config.toml
 
-# RESET by gumusbey
+# RESET
 $OLLO tendermint unsafe-reset-all --home $HOME/$OLLO_FOLDER
 
-echo -e "\e[1m\e[32m4. SERVIS BASLATILIYOR... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m4. CREATING SERVICE... \e[0m" && sleep 1
 # create service
 sudo tee /etc/systemd/system/$OLLO.service > /dev/null <<EOF
 [Unit]
@@ -156,7 +156,7 @@ WantedBy=multi-user.target
 EOF
 
 
-# SERVISLERI BASLAT by gumusbey
+# SERVICES RESTART
 sudo systemctl daemon-reload
 sudo systemctl enable $OLLO
 sudo systemctl restart $OLLO
